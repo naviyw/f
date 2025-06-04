@@ -17,12 +17,12 @@ criaCartao(
 )
 
 criaCartao(
-    'Lingua inglesa',
-    'Como se diz oi em Inglês?',
-    'Oi em ingles é HI (RAI)'
+    'Lingua portuguesa',
+    'Explique o que é regência verbal e dê um exemplo.',
+    'Regência verbal trata da relação entre o verbo e seus complementos (objetos diretos e indiretos). Ela define se um verbo exige ou não uma preposição e qual preposição. Exemplo: "Assistir" no sentido de "ver" rege preposição "a" (Ex: Eu assisti ao filme). No sentido de "prestar assistência", não (Ex: Eu assisti o doente).'
 )
 criaCartao(
-    'Lingua inglesa',
-    'Como se diz oi em Inglês?',
-    'Oi em ingles é HI (RAI)'
+    'História',
+    'O que define uma república parlamentarista?',
+    'Em uma república parlamentarista, o chefe de Estado (geralmente um Presidente com funções mais cerimoniais) é distinto do chefe de Governo (o Primeiro-Ministro). O governo é formado pelo partido ou coalizão de partidos que têm a maioria no parlamento, e o Primeiro-Ministro é responsável perante o parlamento.'
 )
