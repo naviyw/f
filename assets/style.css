@@ -1,4 +1,4 @@
-::root {
+:root {
     --text-color: #000000;
     --card-front-color: #d6dee6;
     --card-back-color: #101316;
@@ -6,7 +6,6 @@
 
 body {
     background: url('img/bg-desktop.webp');
-    /* Fonte Nunito Sans aplicada ao corpo do documento */
     font-family: 'Nunito Sans', sans-serif;
 }
 
@@ -20,12 +19,13 @@ body {
 
 .cartao {
     margin: 1rem 1rem;
-    height: 20rem;
+    height: 20rem; /* Altura fixa do cartão */
     flex-grow: 1;
     flex-basis: calc(33% - 6rem);
-    /* Arredonda as bordas do próprio cartão */
-    border-radius: 1rem; /* Ajuste o valor para mais ou menos arredondamento */
-    overflow: hidden; /* Garante que o conteúdo interno respeite o border-radius */
+    border-radius: 1rem;
+    overflow: hidden;
+    /* Adicione 'position: relative;' para que os elementos internos com 'position: absolute;' sejam posicionados em relação a ele */
+    position: relative;
 }
 
 .cartao__conteudo {
@@ -34,8 +34,17 @@ body {
     height: 100%;
     transform-style: preserve-3d;
     transition: transform 300ms ease-in-out;
-    /* Arredonda as bordas do conteúdo do cartão, se necessário */
-    border-radius: 1rem; /* Mesma medida do .cartao para manter consistência */
+    border-radius: 1rem;
+    /* Ocupa 100% da largura e altura do .cartao */
+    width: 100%;
+    /* Adicione 'overflow: hidden;' para cortar qualquer conteúdo que exceda as bordas arredondadas do '.cartao__conteudo' */
+    overflow: hidden;
+    /* Use 'display: flex', 'flex-direction: column', 'justify-content: center' para centralizar o conteúdo verticalmente */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza verticalmente o conteúdo (p, h3, etc.) */
+    align-items: center; /* Centraliza horizontalmente o conteúdo */
+    box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura/altura total */
 }
 
 .cartao__conteudo h3 {
@@ -43,19 +52,30 @@ body {
     border: 1px solid var(--text-color);
     text-align: left;
     padding: 0.5rem;
-    position: absolute;
+    position: absolute; /* Mantenha 'absolute' para posicionamento no canto */
     margin: 0.6rem;
-    /* Já tinha border-radius, mantive e ajustei para consistência */
-    border-radius: 0.8rem; /* Um pouco mais arredondado que o original de 0.6rem */
-    font-size: 1vw;
+    border-radius: 0.8rem;
+    font-size: 1vw; /* Ajuste este valor se ainda sair, ou considere 'em' ou 'rem' */
     backface-visibility: hidden;
+    /* Adicione max-width e word-wrap para garantir que o texto não ultrapasse a largura */
+    max-width: calc(100% - 1.2rem); /* 100% da largura do pai menos as margens laterais */
+    word-wrap: break-word; /* Quebra palavras longas que não cabem */
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+    top: 0; /* Posição no topo */
+    left: 0; /* Posição à esquerda */
 }
 
 .cartao__conteudo p {
-    margin-top: 1rem;
+    margin-top: 1rem; /* Pode precisar de ajuste, se o h3 estiver em 'absolute' */
     padding: 2rem;
-    margin-top: 4rem;
-    font-size: 1.4vw;
+    /* margin-top: 4rem; Remova ou ajuste, pois o h3 está em 'absolute' */
+    font-size: 1.4vw; /* Ajuste este valor se ainda sair, ou considere 'em' ou 'rem' */
+    /* Adicione flex-grow para que o parágrafo ocupe o espaço disponível e overflow-y para scroll se necessário */
+    flex-grow: 1;
+    overflow-y: auto; /* Adiciona barra de rolagem se o conteúdo for muito longo */
+    text-align: center; /* Centraliza o texto do parágrafo */
+    box-sizing: border-box; /* Inclui padding na largura/altura total */
+    width: 100%; /* Garante que o parágrafo ocupe a largura completa */
 }
 
 .cartao__conteudo__pergunta p {
@@ -79,8 +99,13 @@ body {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    /* Arredonda as bordas das faces da pergunta e resposta */
-    border-radius: 1rem; /* Consistente com o .cartao */
+    border-radius: 1rem;
+    /* Adicione display: flex, flex-direction: column e justify-content: center aqui também para centralizar o texto dentro de cada face */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Centraliza horizontalmente o texto dentro da face */
+    padding: 2rem; /* Adicione padding para o texto não colar nas bordas */
 }
 
 .cartao__conteudo__resposta {
@@ -96,21 +121,23 @@ footer {
     bottom: 0;
     width: 100%;
     height: 2rem;
-    /* Arredonda as bordas superiores do rodapé */
     border-top-left-radius: 0.8rem;
     border-top-right-radius: 0.8rem;
+    display: flex; /* Adicione flex para centralizar o conteúdo do rodapé */
+    justify-content: center;
+    align-items: center;
 }
 
 footer p {
     text-align: center;
     font-size: 0.6rem;
-    margin-top: 0.5rem;
+    margin-top: 0; /* Remova margin-top para centralizar com flexbox */
 }
 
 @media (max-width: 560px) {
 
     body {
-        background: url('img/bg-mobile.webp') no-repeat center center / cover; /* Correção para o background mobile */
+        background: url('img/bg-mobile.webp') no-repeat center center / cover;
     }
 
     .cartao {
@@ -118,10 +145,10 @@ footer p {
     }
 
     .cartao__conteudo h3 {
-        font-size: 3vw;
+        font-size: 3vw; /* Considere usar 'em' ou 'rem' para maior controle */
     }
 
     .cartao__conteudo p {
-        font-size: 3.8vw;
+        font-size: 3.8vw; /* Considere usar 'em' ou 'rem' para maior controle */
     }
 }
