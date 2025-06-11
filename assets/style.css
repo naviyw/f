@@ -54,13 +54,12 @@ body {
     top: 0.6rem; /* Usa top e left em vez de margin para posicionamento absoluto */
     left: 0.6rem;
     border-radius: 0.6rem;
-    font-size: 1vw; /* Tamanho de fonte responsivo para desktop */
-    /* backface-visibility: hidden; REMOVIDO AQUI, VAI PARA O CONTÊINER DA FACE */
-    z-index: 2; /* Garante que permaneça na frente */
-    white-space: nowrap; /* Impede que o texto quebre prematuramente */
-    overflow: hidden; /* Oculta o texto que transborda da caixa do h3 */
-    text-overflow: ellipsis; /* Adiciona reticências (...) para texto transbordando */
-    max-width: calc(100% - 1.2rem); /* Largura máxima em relação ao pai, considerando padding esquerdo/direito */
+    font-size: 1vw; 
+    z-index: 2; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    max-width: calc(100% - 1.2rem); 
 }
 
 .cartao__conteudo p {
@@ -102,26 +101,23 @@ body {
     position: absolute;
     height: 100%;
     width: 100%;
-    backface-visibility: hidden; /* <-- ESTE É O SEGREDOS: ESCONDE A FACE DE TRÁS QUANDO ELA ESTÁ VIRADA! */
-    box-sizing: border-box; /* Importante para que o padding seja incluído na altura/largura */
-    display: flex; /* Usa flexbox para centralizar o conteúdo verticalmente/horizontalmente */
-    flex-direction: column; /* Adicionado para organizar h3 e p em coluna */
-    align-items: center; /* Centraliza horizontalmente o conteúdo (h3 e p) */
-    justify-content: flex-start; /* Alinha o conteúdo ao topo, permitindo que margin-top do p funcione */
-    padding: 1rem; /* Adiciona padding para evitar que o texto toque as bordas */
-    text-align: center; /* Garante que o texto dentro do container flex seja centralizado */
-    border-radius: 0.6rem; /* Consistência com o .cartao__conteudo */
-    overflow: hidden; /* Para garantir que o texto não transborde */
+    backface-visibility: hidden; 
+    box-sizing: border-box; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: flex-start; 
+    padding: 1rem; 
+    text-align: center; 
+    border-radius: 0.6rem; 
+    overflow: hidden; 
 }
 
 .cartao__conteudo__pergunta {
-    background-color: var(--card-front-color); /* Fundo da face da pergunta */
-    /* Não precisa de transform aqui, ela já é a face frontal padrão (0deg) */
-}
-
+    background-color: var(--card-front-color); 
 .cartao__conteudo__resposta {
-    transform: rotateY(180deg); /* Faz com que a face da resposta comece "virada para trás" */
+    transform: rotateY(180deg); 
     background-color: rgba(0, 244, 191, 0.2);
     border: 4px solid var(--card-back-color);
-    /* border-radius: 0.6rem; (já definido acima, mas mantido para clareza) */
+    /* border-radius: 0.6rem;
 }
