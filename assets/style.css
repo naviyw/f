@@ -46,9 +46,6 @@ body {
     box-sizing: border-box;
 }
 
-/* Remova o estilo direto em .cartao__conteudo h3 e p, pois eles agora são filhos de .cartao__conteudo__pergunta/resposta */
-/* Esses estilos serão aplicados às faces específicas */
-
 .cartao__conteudo__pergunta,
 .cartao__conteudo__resposta {
     position: absolute;
