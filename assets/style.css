@@ -1,12 +1,17 @@
 :root {
-    --text-color: #252e38;
-    --card-front-color: #cbdef4;
-    --card-back-color: #445768;
+    --text-color: #000000;
+    --card-front-color: #49535e;
+    --card-back-color: #5d7285;
 }
 
+/* Aplica a fonte Nunito Sans a todo o corpo do documento */
 body {
-    background: url('img/bg-desktop.webp');
+    background: url('img/bg-desktop.webp') no-repeat center center / cover; /* Adicionado no-repeat, center center e cover para melhor tratamento do fundo */
     font-family: 'Nunito Sans', sans-serif;
+    margin: 0; /* Remove a margem padrão do body */
+    min-height: 100vh; /* Garante que o body ocupe pelo menos a altura total da viewport */
+    display: flex;
+    flex-direction: column; /* Organiza o conteúdo em coluna para empurrar o rodapé */
 }
 
 #container {
@@ -14,23 +19,30 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 4rem;
-    gap: 3rem;
+    gap: 3rem; /* Espaçamento entre os itens */
+    flex-grow: 1; /* Permite que o container cresça e empurre o rodapé para baixo */
 }
 
 .cartao {
-    margin: 1rem 1rem;
+    margin: 1rem 1rem; /* Considere se estas margens ainda são necessárias com o 'gap' no container */
     height: 20rem;
     flex-grow: 1;
-    flex-basis: calc(33% - 6rem);
+    flex-basis: calc(33.333% - 2rem); /* Ajustado para 3 cartões por linha, considerando o 'gap' */
+    perspective: 1000px; /* Essencial para a transformação 3D no elemento filho */
+    box-sizing: border-box; /* Inclui padding e borda na largura e altura totais do elemento */
+    min-width: 250px; /* Impede que os cartões fiquem muito estreitos em telas de desktop menores */
 }
 
 .cartao__conteudo {
     background-color: var(--card-front-color);
     text-align: center;
-    /* background-color: aquamarine; */
     height: 100%;
+    width: 100%; /* Garante que ocupe a largura total do pai */
     transform-style: preserve-3d;
     transition: transform 300ms ease-in-out;
+    position: relative; /* Para posicionamento absoluto dos filhos */
+    border-radius: 0.6rem; /* Para consistência com o h3 */
+    overflow: hidden; /* Oculta qualquer conteúdo que possa transbordar, especialmente de padding */
 }
 
 .cartao__conteudo h3 {
@@ -39,17 +51,29 @@ body {
     text-align: left;
     padding: 0.5rem;
     position: absolute;
-    margin: 0.6rem;
+    top: 0.6rem; /* Usa top e left em vez de margin para posicionamento absoluto */
+    left: 0.6rem;
     border-radius: 0.6rem;
-    font-size: 1vw;
+    font-size: 1vw; /* Tamanho de fonte responsivo para desktop */
     backface-visibility: hidden;
+    z-index: 2; /* Garante que permaneça na frente */
+    white-space: nowrap; /* Impede que o texto quebre prematuramente */
+    overflow: hidden; /* Oculta o texto que transborda da caixa do h3 */
+    text-overflow: ellipsis; /* Adiciona reticências (...) para texto transbordando */
+    max-width: calc(100% - 1.2rem); /* Largura máxima em relação ao pai, considerando padding esquerdo/direito */
 }
 
 .cartao__conteudo p {
-    margin-top: 1rem;
     padding: 2rem;
-    margin-top: 4rem;
-    font-size: 1.4vw;
+    margin-top: 4rem; /* Empurra o conteúdo para baixo para evitar sobreposição com h3 */
+    font-size: 1.4vw; /* Tamanho de fonte responsivo para desktop */
+    word-wrap: break-word; /* Permite que palavras longas quebrem e quebrem a linha */
+    overflow: hidden; /* Oculta o texto que transborda */
+    text-overflow: ellipsis; /* Adiciona reticências se o texto ainda transbordar verticalmente (pode precisar de max-height) */
+    max-height: calc(100% - 4rem - 2rem); /* Calcula grosseiramente a altura máxima para caber, ajuste conforme necessário */
+    display: -webkit-box; /* Para reticências em várias linhas em navegadores WebKit */
+    -webkit-line-clamp: 6; /* Limita a 6 linhas, ajuste conforme necessário */
+    -webkit-box-orient: vertical;
 }
 
 .cartao__conteudo__pergunta p {
@@ -58,7 +82,7 @@ body {
 }
 
 .cartao__conteudo__resposta p {
-    color: var(--card-back-color);
+    color: var(--card-back-color); /* Esta cor pode ser difícil de ler no fundo verde. Considere uma cor de texto mais escura para legibilidade. */
     font-weight: 700;
 }
 
@@ -72,22 +96,29 @@ body {
     position: absolute;
     height: 100%;
     width: 100%;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Importante para que o padding seja incluído na altura/largura */
+    display: flex; /* Usa flexbox para centralizar o conteúdo verticalmente/horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    padding: 1rem; /* Adiciona padding para evitar que o texto toque as bordas */
+    text-align: center; /* Garante que o texto dentro do container flex seja centralizado */
 }
 
 .cartao__conteudo__resposta {
     transform: rotateY(180deg);
     background-color: rgba(0, 244, 191, 0.2);
     border: 4px solid var(--card-back-color);
+    border-radius: 0.6rem; /* Para consistência com a frente do cartão */
 }
 
 footer {
     background-color: black;
     color: white;
-    position: fixed;
-    bottom: 0;
+    /* position: fixed; */ /* Removido o posicionamento fixo para permitir que flua com o conteúdo */
+    /* bottom: 0; */
     width: 100%;
     height: 2rem;
+    margin-top: auto; /* Empurra o rodapé para a parte inferior */
 }
 
 footer p {
@@ -96,21 +127,80 @@ footer p {
     margin-top: 0.5rem;
 }
 
-@media (max-width: 560px) {
-    
-    body {
-        background: url('img/bg-mobile.webp'), no-repeat cover;
+@media (max-width: 768px) { /* Adicionado um novo breakpoint para tablets */
+    #container {
+        padding: 2rem;
+        gap: 2rem;
     }
 
     .cartao {
-        flex: 1 0 calc(100% - 1rem)
+        flex-basis: calc(50% - 2rem); /* Dois cartões por linha em tablets */
+        height: 18rem; /* Altura ligeiramente menor */
     }
 
     .cartao__conteudo h3 {
-        font-size: 3vw;
+        font-size: 2.5vw;
     }
 
     .cartao__conteudo p {
-        font-size: 3.8vw;
+        font-size: 3vw;
+        margin-top: 3.5rem;
+    }
+}
+
+@media (max-width: 560px) {
+    
+    body {
+        background: url('img/bg-mobile.webp') no-repeat center center / cover; /* Garante que o fundo mobile funcione de forma semelhante */
+    }
+
+    #container {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .cartao {
+        flex: 1 0 calc(100% - 2rem); /* Um cartão por linha no mobile, ajustado para padding/gap */
+        height: 15rem; /* Altura menor para mobile */
+        margin: 0.5rem 0.5rem; /* Margens ajustadas para telas menores */
+    }
+
+    .cartao__conteudo h3 {
+        font-size: 4vw; /* Aumentado o tamanho da fonte para melhor legibilidade em telas pequenas */
+        padding: 0.4rem;
+        left: 0.4rem;
+        top: 0.4rem;
+    }
+
+    .cartao__conteudo p {
+        font-size: 4.5vw; /* Aumentado o tamanho da fonte */
+        margin-top: 3rem; /* Margem ajustada */
+        padding: 1.5rem; /* Padding reduzido */
+        max-height: calc(100% - 3rem - 1.5rem); /* Recalcula a altura máxima */
+        -webkit-line-clamp: 5; /* Ajusta o limite de linhas para mobile */
+    }
+
+    .cartao__conteudo__pergunta,
+    .cartao__conteudo__resposta {
+        padding: 0.8rem; /* Padding reduzido para mobile */
+    }
+
+    footer {
+        height: 1.8rem;
+    }
+
+    footer p {
+        font-size: 0.5rem;
+        margin-top: 0.4rem;
+    }
+}
+
+/* Opcional: Otimização adicional para telas muito pequenas */
+@media (max-width: 400px) {
+    .cartao__conteudo h3 {
+        font-size: 5vw;
+    }
+    .cartao__conteudo p {
+        font-size: 5.5vw;
     }
 }
