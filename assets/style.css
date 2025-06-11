@@ -1,17 +1,12 @@
 :root {
     --text-color: #000000;
-    --card-front-color: #49535e;
-    --card-back-color: #5d7285;
+    --card-front-color: #3a4b60;
+    --card-back-color: #494e62;
 }
 
-/* Aplica a fonte Nunito Sans a todo o corpo do documento */
 body {
-    background: url('img/bg-desktop.webp') no-repeat center center / cover; /* Adicionado no-repeat, center center e cover para melhor tratamento do fundo */
-    font-family: 'Nunito Sans', sans-serif;
-    margin: 0; /* Remove a margem padrão do body */
-    min-height: 100vh; /* Garante que o body ocupe pelo menos a altura total da viewport */
-    display: flex;
-    flex-direction: column; /* Organiza o conteúdo em coluna para empurrar o rodapé */
+    background: url('img/bg-desktop.webp');
+    font-family: Nunito sans;
 }
 
 #container {
@@ -19,30 +14,23 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 4rem;
-    gap: 3rem; /* Espaçamento entre os itens */
-    flex-grow: 1; /* Permite que o container cresça e empurre o rodapé para baixo */
+    gap: 3rem;
 }
 
 .cartao {
-    margin: 1rem 1rem; /* Considere se estas margens ainda são necessárias com o 'gap' no container */
+    margin: 1rem 1rem;
     height: 20rem;
     flex-grow: 1;
-    flex-basis: calc(33.333% - 2rem); /* Ajustado para 3 cartões por linha, considerando o 'gap' */
-    perspective: 1000px; /* Essencial para a transformação 3D no elemento filho */
-    box-sizing: border-box; /* Inclui padding e borda na largura e altura totais do elemento */
-    min-width: 250px; /* Impede que os cartões fiquem muito estreitos em telas de desktop menores */
+    flex-basis: calc(33% - 6rem);
 }
 
 .cartao__conteudo {
-    /*background-color: var(--card-front-color); REMOVIDO AQUI, AGORA É DEFINIDO NAS FACES */
+    background-color: var(--card-front-color);
     text-align: center;
+    /* background-color: aquamarine; */
     height: 100%;
-    width: 100%; /* Garante que ocupe a largura total do pai */
-    transform-style: preserve-3d; /* CRUCIAL: Mantenha isso! */
+    transform-style: preserve-3d;
     transition: transform 300ms ease-in-out;
-    position: relative; /* Para posicionamento absoluto dos filhos */
-    border-radius: 0.6rem; /* Para consistência com o h3 */
-    /* overflow: hidden; REMOVIDO AQUI, PODE CORTAR O EFEITO 3D */
 }
 
 .cartao__conteudo h3 {
@@ -51,28 +39,17 @@ body {
     text-align: left;
     padding: 0.5rem;
     position: absolute;
-    top: 0.6rem; /* Usa top e left em vez de margin para posicionamento absoluto */
-    left: 0.6rem;
+    margin: 0.6rem;
     border-radius: 0.6rem;
-    font-size: 1vw; 
-    z-index: 2; 
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-    max-width: calc(100% - 1.2rem); 
+    font-size: 1vw;
+    backface-visibility: hidden;
 }
 
 .cartao__conteudo p {
+    margin-top: 1rem;
     padding: 2rem;
-    margin-top: 4rem; /* Empurra o conteúdo para baixo para evitar sobreposição com h3 */
-    font-size: 1.4vw; /* Tamanho de fonte responsivo para desktop */
-    word-wrap: break-word; /* Permite que palavras longas quebrem e quebrem a linha */
-    overflow: hidden; /* Oculta o texto que transborda */
-    text-overflow: ellipsis; /* Adiciona reticências se o texto ainda transbordar verticalmente (pode precisar de max-height) */
-    max-height: calc(100% - 4rem - 2rem); /* Calcula grosseiramente a altura máxima para caber, ajuste conforme necessário */
-    display: -webkit-box; /* Para reticências em várias linhas em navegadores WebKit */
-    -webkit-line-clamp: 6; /* Limita a 6 linhas, ajuste conforme necessário */
-    -webkit-box-orient: vertical;
+    margin-top: 4rem;
+    font-size: 1.4vw;
 }
 
 .cartao__conteudo__pergunta p {
@@ -81,7 +58,7 @@ body {
 }
 
 .cartao__conteudo__resposta p {
-    color: var(--card-back-color); /* Esta cor pode ser difícil de ler no fundo verde. Considere uma cor de texto mais escura para legibilidade. */
+    color: var(--card-back-color);
     font-weight: 700;
 }
 
@@ -89,35 +66,51 @@ body {
     transform: rotateY(180deg);
 }
 
----
-
-### **Ajuste CRUCIAL aqui:**
-
-`.cartao__conteudo__pergunta` e `.cartao__conteudo__resposta` devem ser elementos **absolutos** que se sobrepõem perfeitamente dentro de `.cartao__conteudo`. E é neles que o `backface-visibility: hidden;` deve ser aplicado.
-
-```css
 .cartao__conteudo__pergunta,
 .cartao__conteudo__resposta {
+    backface-visibility: hidden;
     position: absolute;
     height: 100%;
     width: 100%;
-    backface-visibility: hidden; 
-    box-sizing: border-box; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: flex-start; 
-    padding: 1rem; 
-    text-align: center; 
-    border-radius: 0.6rem; 
-    overflow: hidden; 
+    box-sizing: border-box;
 }
 
-.cartao__conteudo__pergunta {
-    background-color: var(--card-front-color); 
 .cartao__conteudo__resposta {
-    transform: rotateY(180deg); 
+    transform: rotateY(180deg);
     background-color: rgba(0, 244, 191, 0.2);
     border: 4px solid var(--card-back-color);
-    /* border-radius: 0.6rem;
+}
+
+footer {
+    background-color: black;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 2rem;
+}
+
+footer p {
+    text-align: center;
+    font-size: 0.6rem;
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 560px) {
+    
+    body {
+        background: url('img/bg-mobile.webp'), no-repeat cover;
+    }
+
+    .cartao {
+        flex: 1 0 calc(100% - 1rem)
+    }
+
+    .cartao__conteudo h3 {
+        font-size: 3vw;
+    }
+
+    .cartao__conteudo p {
+        font-size: 3.8vw;
+    }
 }
