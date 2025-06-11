@@ -34,15 +34,15 @@ body {
 }
 
 .cartao__conteudo {
-    background-color: var(--card-front-color);
+    /*background-color: var(--card-front-color); REMOVIDO AQUI, AGORA É DEFINIDO NAS FACES */
     text-align: center;
     height: 100%;
     width: 100%; /* Garante que ocupe a largura total do pai */
-    transform-style: preserve-3d;
+    transform-style: preserve-3d; /* CRUCIAL: Mantenha isso! */
     transition: transform 300ms ease-in-out;
     position: relative; /* Para posicionamento absoluto dos filhos */
     border-radius: 0.6rem; /* Para consistência com o h3 */
-    overflow: hidden; /* Oculta qualquer conteúdo que possa transbordar, especialmente de padding */
+    /* overflow: hidden; REMOVIDO AQUI, PODE CORTAR O EFEITO 3D */
 }
 
 .cartao__conteudo h3 {
@@ -55,7 +55,7 @@ body {
     left: 0.6rem;
     border-radius: 0.6rem;
     font-size: 1vw; /* Tamanho de fonte responsivo para desktop */
-    backface-visibility: hidden;
+    /* backface-visibility: hidden; REMOVIDO AQUI, VAI PARA O CONTÊINER DA FACE */
     z-index: 2; /* Garante que permaneça na frente */
     white-space: nowrap; /* Impede que o texto quebre prematuramente */
     overflow: hidden; /* Oculta o texto que transborda da caixa do h3 */
@@ -90,117 +90,38 @@ body {
     transform: rotateY(180deg);
 }
 
+---
+
+### **Ajuste CRUCIAL aqui:**
+
+`.cartao__conteudo__pergunta` e `.cartao__conteudo__resposta` devem ser elementos **absolutos** que se sobrepõem perfeitamente dentro de `.cartao__conteudo`. E é neles que o `backface-visibility: hidden;` deve ser aplicado.
+
+```css
 .cartao__conteudo__pergunta,
 .cartao__conteudo__resposta {
-    backface-visibility: hidden;
     position: absolute;
     height: 100%;
     width: 100%;
+    backface-visibility: hidden; /* <-- ESTE É O SEGREDOS: ESCONDE A FACE DE TRÁS QUANDO ELA ESTÁ VIRADA! */
     box-sizing: border-box; /* Importante para que o padding seja incluído na altura/largura */
     display: flex; /* Usa flexbox para centralizar o conteúdo verticalmente/horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    justify-content: center; /* Centraliza horizontalmente */
+    flex-direction: column; /* Adicionado para organizar h3 e p em coluna */
+    align-items: center; /* Centraliza horizontalmente o conteúdo (h3 e p) */
+    justify-content: flex-start; /* Alinha o conteúdo ao topo, permitindo que margin-top do p funcione */
     padding: 1rem; /* Adiciona padding para evitar que o texto toque as bordas */
     text-align: center; /* Garante que o texto dentro do container flex seja centralizado */
+    border-radius: 0.6rem; /* Consistência com o .cartao__conteudo */
+    overflow: hidden; /* Para garantir que o texto não transborde */
+}
+
+.cartao__conteudo__pergunta {
+    background-color: var(--card-front-color); /* Fundo da face da pergunta */
+    /* Não precisa de transform aqui, ela já é a face frontal padrão (0deg) */
 }
 
 .cartao__conteudo__resposta {
-    transform: rotateY(180deg);
+    transform: rotateY(180deg); /* Faz com que a face da resposta comece "virada para trás" */
     background-color: rgba(0, 244, 191, 0.2);
     border: 4px solid var(--card-back-color);
-    border-radius: 0.6rem; /* Para consistência com a frente do cartão */
-}
-
-footer {
-    background-color: black;
-    color: white;
-    /* position: fixed; */ /* Removido o posicionamento fixo para permitir que flua com o conteúdo */
-    /* bottom: 0; */
-    width: 100%;
-    height: 2rem;
-    margin-top: auto; /* Empurra o rodapé para a parte inferior */
-}
-
-footer p {
-    text-align: center;
-    font-size: 0.6rem;
-    margin-top: 0.5rem;
-}
-
-@media (max-width: 768px) { /* Adicionado um novo breakpoint para tablets */
-    #container {
-        padding: 2rem;
-        gap: 2rem;
-    }
-
-    .cartao {
-        flex-basis: calc(50% - 2rem); /* Dois cartões por linha em tablets */
-        height: 18rem; /* Altura ligeiramente menor */
-    }
-
-    .cartao__conteudo h3 {
-        font-size: 2.5vw;
-    }
-
-    .cartao__conteudo p {
-        font-size: 3vw;
-        margin-top: 3.5rem;
-    }
-}
-
-@media (max-width: 560px) {
-    
-    body {
-        background: url('img/bg-mobile.webp') no-repeat center center / cover; /* Garante que o fundo mobile funcione de forma semelhante */
-    }
-
-    #container {
-        padding: 1rem;
-        gap: 1rem;
-    }
-
-    .cartao {
-        flex: 1 0 calc(100% - 2rem); /* Um cartão por linha no mobile, ajustado para padding/gap */
-        height: 15rem; /* Altura menor para mobile */
-        margin: 0.5rem 0.5rem; /* Margens ajustadas para telas menores */
-    }
-
-    .cartao__conteudo h3 {
-        font-size: 4vw; /* Aumentado o tamanho da fonte para melhor legibilidade em telas pequenas */
-        padding: 0.4rem;
-        left: 0.4rem;
-        top: 0.4rem;
-    }
-
-    .cartao__conteudo p {
-        font-size: 4.5vw; /* Aumentado o tamanho da fonte */
-        margin-top: 3rem; /* Margem ajustada */
-        padding: 1.5rem; /* Padding reduzido */
-        max-height: calc(100% - 3rem - 1.5rem); /* Recalcula a altura máxima */
-        -webkit-line-clamp: 5; /* Ajusta o limite de linhas para mobile */
-    }
-
-    .cartao__conteudo__pergunta,
-    .cartao__conteudo__resposta {
-        padding: 0.8rem; /* Padding reduzido para mobile */
-    }
-
-    footer {
-        height: 1.8rem;
-    }
-
-    footer p {
-        font-size: 0.5rem;
-        margin-top: 0.4rem;
-    }
-}
-
-/* Opcional: Otimização adicional para telas muito pequenas */
-@media (max-width: 400px) {
-    .cartao__conteudo h3 {
-        font-size: 5vw;
-    }
-    .cartao__conteudo p {
-        font-size: 5.5vw;
-    }
+    /* border-radius: 0.6rem; (já definido acima, mas mantido para clareza) */
 }
