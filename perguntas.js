@@ -1,7 +1,7 @@
 criaCartao(
     'Inglês',
     'Qual a diferença entre "simple past" e "present perfect"?',
-    'O "simple past" é usado para ações em tempo definido no passado (ex: I visited London last year). O "present perfect" é para ações que começaram no passado e continuam até o presente,com relevância para o presente (ex: I have visited London many times / She has lived here for five years)'
+    'O "simple past" é usado para ações em tempo definido no passado (ex: I visited London last year). O "present perfect" é para ações que começaram no passado e continuam para o presente (ex: I have visited London many times / She has lived here for five years)'
 )
 
 criaCartao(
